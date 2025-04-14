@@ -1,0 +1,559 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect Login</title>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing CSS remains unchanged */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="3" cy="3" r="1"/%3E%3Ccircle cx="17" cy="17" r="1"/%3E%3C/g%3E%3C/svg%3E');
+                z-index: -1;
+            }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            width: 65%;
+            max-width: 1000px;
+            display: flex;
+            align-items: stretch;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @@keyframes slideIn {
+            from
+
+        {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        }
+
+        .logo-section {
+            flex: 1;
+            text-align: center;
+            padding: 30px;
+            border-right: 1px solid rgba(224, 224, 224, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            .logo-section img {
+                height: 100px;
+                transition: transform 0.3s;
+            }
+
+                .logo-section img:hover {
+                    transform: scale(1.05);
+                }
+
+        .animated-heading {
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 3s ease infinite;
+            margin: 20px 0;
+        }
+
+        @@keyframes gradientAnimation {
+            0%
+
+        {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+
+        }
+
+        .form-section {
+            flex: 2;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+            .form-section h4 {
+                font-size: 2rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #1a1a1a;
+            }
+
+            .form-section p {
+                font-size: 1rem;
+                color: #666;
+                margin-bottom: 30px;
+            }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+            .form-group input {
+                height: 55px;
+                font-size: 16px;
+                border: 2px solid #e0e0e0;
+                border-radius: 10px;
+                padding: 10px 10px 10px 40px;
+                width: 100%;
+                transition: all 0.3s;
+                background: #f9f9f9;
+            }
+
+                .form-group input:focus {
+                    border-color: #4ecdc4;
+                    box-shadow: 0 0 12px rgba(78, 205, 196, 0.3);
+                    outline: none;
+                    background: #fff;
+                }
+
+                .form-group input::placeholder {
+                    color: #aaa;
+                }
+
+            .form-group::before {
+                content: '\1F464';
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 20px;
+                color: #aaa;
+            }
+
+        .form-section a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            transition: color 0.3s;
+        }
+
+            .form-section a:hover {
+                color: #ff6b6b;
+            }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #4ecdc4, #ff6b6b);
+            border: none;
+            border-radius: 10px;
+            height: 55px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+            }
+
+            .btn-primary.loading::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border: 3px solid #fff;
+                border-top: 3px solid transparent;
+                border-radius: 50%;
+                animation: spin 0.8s linear infinite;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+        @@keyframes spin {
+            0%
+
+        {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+            .form-footer .links {
+                display: flex;
+                gap: 20px;
+            }
+
+            .form-footer a {
+                font-size: 0.9rem;
+                color: #4ecdc4;
+                transition: color 0.3s;
+            }
+
+                .form-footer a:hover {
+                    color: #ff6b6b;
+                }
+
+        .carousel-inner .carousel-item {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .carousel-item img {
+            max-height: 120px;
+            width: auto;
+            object-fit: contain;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+
+            .carousel-item img:hover {
+                transform: scale(1.1);
+            }
+
+        .carousel-caption {
+            position: static;
+            margin-top: 15px;
+        }
+
+            .carousel-caption h7 {
+                font-size: 14px;
+                color: #4ecdc4;
+                font-weight: 500;
+            }
+
+        .carousel-indicators [data-bs-target] {
+            background-color: #4ecdc4;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: rgba(78, 205, 196, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .captcha-container {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: border-color 0.3s;
+        }
+
+            .captcha-container:hover {
+                border-color: #4ecdc4;
+            }
+
+        .captcha-checkbox {
+            width: 24px;
+            height: 24px;
+            appearance: none;
+            border: 2px solid #4ecdc4;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+            .captcha-checkbox:checked {
+                background: #4ecdc4;
+                border-color: #4ecdc4;
+            }
+
+                .captcha-checkbox:checked::after {
+                    content: '\2714';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: #fff;
+                    font-size: 16px;
+                }
+
+        .captcha-label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .captcha-container.invalid {
+            animation: shake 0.4s;
+            border-color: #ff6b6b;
+        }
+
+        @@media (max-width: 768px) {
+            .login-box
+
+        {
+            flex-direction: column;
+            width: 95%;
+        }
+
+        .logo-section, .form-section {
+            flex: none;
+            padding: 20px;
+            border-right: none;
+            border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+        }
+
+            .form-section h4 {
+                font-size: 1.8rem;
+            }
+
+        .carousel-item img {
+            max-height: 100px;
+        }
+
+        }
+
+        .form-group input:invalid:focus:required,
+        .form-group input.invalid,
+        .captcha-container.invalid {
+            animation: shake 0.4s;
+            border-color: #ff6b6b;
+        }
+
+        @@keyframes shake {
+            0%, 100%
+
+        {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-5px);
+        }
+
+        50% {
+            transform: translateX(5px);
+        }
+
+        75% {
+            transform: translateX(-5px);
+        }
+
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="logo-section">
+            <img src="https://via.placeholder.com/150x100?text=Campus+Connect" alt="Campus Connect Logo" />
+            <p class="animated-heading">Discover CampusConnect 2.0</p>
+            <div id="modulesCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#modulesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#modulesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                </div>
+                <div class="carousel-inner" id="carousel-content">
+                    <div class="carousel-item active">
+                        <img src="https://via.placeholder.com/120x120?text=Connect" alt="Connect Feature">
+                        <div class="carousel-caption">
+                            <h7>Connect with Peers Seamlessly</h7>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://via.placeholder.com/120x120?text=Learn" alt="Learn Feature">
+                        <div class="carousel-caption">
+                            <h7>Access Learning Resources</h7>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#modulesCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#modulesCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-section">
+            <h4>Welcome Back User</h4>
+            <p>Sign in to Campus Connect</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" required id="userName" aria-label="Username">
+                    <div class="error-message" id="usernameError">Please enter a username</div>
+                </div>
+                <div class="captcha-container">
+                    <input type="checkbox" class="captcha-checkbox" id="captcha" required aria-label="CAPTCHA verification">
+                    <label for="captcha" class="captcha-label">I'm not a robot</label>
+                    <div class="error-message" id="captchaError">Please verify the CAPTCHA</div>
+                </div>
+                <a href="#" class="mb-3">Forgot Username?</a>
+                <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+                <div class="form-footer">
+                    <a href="#">Create Account</a>
+                    <div class="links">
+                        <a href="#">Help</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Verify jQuery is loaded
+        console.log(typeof $); // Should log "function"
+
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const username = document.getElementById('userName').value.trim();
+            const captcha = document.getElementById('captcha').checked;
+            const usernameError = document.getElementById('usernameError');
+            const captchaError = document.getElementById('captchaError');
+            const captchaContainer = document.querySelector('.captcha-container');
+            let isValid = true;
+
+            // Reset previous error states
+            document.getElementById('userName').classList.remove('invalid');
+            captchaContainer.classList.remove('invalid');
+            usernameError.style.display = 'none';
+            captchaError.style.display = 'none';
+
+            // Validate username
+            if (!username) {
+                document.getElementById('userName').classList.add('invalid');
+                usernameError.style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate CAPTCHA
+            if (!captcha) {
+                captchaContainer.classList.add('invalid');
+                captchaError.style.display = 'block';
+                isValid = false;
+            }
+
+            // If all validations pass, show loading state and make AJAX call
+            if (isValid) {
+                this.classList.add('loading');
+                this.disabled = true;
+
+                // Generate URL using Razor syntax
+                let password_url = '@Url.Action("UserPassword", "Login", new { area = "" })';
+
+                $.ajax({
+                    url: password_url,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        // Remove loading state
+                        document.getElementById('nextBtn').classList.remove('loading');
+                        document.getElementById('nextBtn').disabled = false;
+                        window.location.href = '@Url.Action("UserPassword", "Login")';
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        Swal.fire({
+                            title: "Error",
+                            text: "Server Error. Please Try Again!",
+                            icon: "error",
+                            allowOutsideClick: true,
+                            heightAuto: false
+                        });
+                        // Remove loading state
+                        document.getElementById('nextBtn').classList.remove('loading');
+                        document.getElementById('nextBtn').disabled = false;
+                    }
+                });
+            }
+        });
+
+        // Optional: Remove error when user starts typing
+        document.getElementById('userName').addEventListener('input', function() {
+            this.classList.remove('invalid');
+            document.getElementById('usernameError').style.display = 'none';
+        });
+
+        document.getElementById('captcha').addEventListener('change', function() {
+            document.querySelector('.captcha-container').classList.remove('invalid');
+            document.getElementById('captchaError').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
