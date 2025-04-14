@@ -1,1 +1,273 @@
-﻿
+﻿@{
+    
+    Layout = "_HorizontalLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        .highlighted-menu {
+            background-color: #f0f4ff; /* A softer, pastel blue for a modern look */
+            border-radius: 5px; /* Keep the rounded corners for a polished appearance */
+            padding: 5px; /* Retain padding for better spacing */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+            transition: background-color 0.3s ease; /* Smooth transition for background color change */
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+        }
+
+        .module-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added background-color transition */
+            color: #555;
+            background-color: #ebf5fb;
+        }
+
+            .module-card:hover {
+                transform: scale(1.05);
+                background-color: skyblue; /* Change background color on hover */
+            }
+
+
+        /*  .module-card:hover {
+                        transform: scale(1.05);
+                    } */
+
+        .module-image {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .module-title {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        /* Initially hide the div that will show the message */
+        .change-password-message {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            top: 0;
+            left: 100%;
+            margin-left: 10px;
+        }
+
+        .card-body {
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+            .card-body:hover {
+                background-color: skyblue; /* Change background color on hover */
+            }
+
+        .table-custom {
+            background-color: #f8f9fa; /* Light background */
+            border-radius: 10px; /* Rounded corners */
+            overflow: hidden;
+        }
+
+        .table th {
+            background-color: #007bff; /* Primary color for table header */
+            color: white; /* White text */
+            text-align: center; /* Center header text */
+            font-weight: bold; /* Bold text */
+            text-transform: none; /* Ensure proper case is maintained */
+        }
+
+        .table td {
+            text-align: center; /* Center data */
+            vertical-align: middle; /* Align vertically */
+        }
+
+        /* Add hover effect on rows */
+        .table tbody tr:hover {
+            background-color: #e2e6ea; /* Light gray on hover */
+        }
+
+        /* Styling for hyperlinks */
+        a {
+            text-decoration: none;
+            color: #007bff; /* Blue for links */
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .table-container {
+            width: 100%; /* Full width */
+            max-height: 500px; /* Set max height for vertical scrolling */
+            overflow-y: auto; /* Enable vertical scroll */
+            overflow-x: auto; /* Enable horizontal scroll if needed */
+            border: 1px solid #ccc; /* Optional: Add a border */
+        }
+
+        table {
+            width: 100%; /* Make table width 100% */
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+
+        .table-container-scrollable {
+            max-height: 400px; /* Set a maximum height for the table */
+            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-x: auto; /* Enable horizontal scrolling if necessary */
+            border: 1px solid #ccc; /* Optional: Add a border to the container */
+            border-radius: 5px; /* Optional: Add rounded corners */
+        }
+
+        .table-custom {
+            margin-bottom: 0; /* Remove extra margin at the bottom */
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0; /* Keep the header fixed at the top */
+            background-color: #007bff; /* Same header background */
+            z-index: 1; /* Ensure the header is above table rows */
+        }
+
+        .table tbody tr:hover {
+            background-color: unset; /* Disable hover effect for table rows */
+        }
+
+        .card-body:hover:not(.table-container-scrollable) {
+            background-color: skyblue; /* Keep hover effect for card body except for the table */
+        }
+    </style>
+</head>
+<body>
+    @* <div class="container" style="margin-left:2%">
+        <div class="row" id="div_erpmodules">
+            @if (ViewBag.ImageBase64 != null)
+            {
+                <div class="col-md-2 col-sm-6 col-xs-12" style="margin-top:1%;">
+                    <div class="card">
+                        <div class="card-body text-center p-3">
+                            <!-- Use card-body for the content -->
+                            <a href="#" class="module" id="module_inventory">
+                                <img src="data:@ViewBag.MimeType;base64,@ViewBag.ImageBase64" alt="Image" width="50%" height="auto" />
+                                <br>
+                                <span class="module-label d-block mt-2"> @ViewBag.DisplayName</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+    </div> *@
+    <div class="container mt-5" style="margin-left:2%">
+        <div class="col-sm-12 col-xs-12">
+            <p style="font-size: 18px !important;">
+                &nbsp;&nbsp;&nbsp;&nbsp;Click the buttons give below for going to the respective modules.
+                &nbsp; &nbsp; <i class="fa fa-refresh" id="refreshIcon" style="cursor:pointer" aria-label="Refresh Page"
+                                 title="Refresh Page"></i>
+            </p>
+
+
+
+        </div>
+        
+        <br />
+
+
+
+        @* <div class="col-sm-12 col-xs-12">
+            <p style="font-size: 18px !important;">&nbsp;&nbsp;&nbsp;&nbsp;The values are for the current academic calander from August 2024 to July 2025.</p>
+        </div>
+         <div class="row">
+                <div class="col-md-8 stretch-card grid-margin">
+                <div class="card">
+                      <div class="card-body">
+                        <div class="card-header">
+                            Student enrollment Statistics
+                            <div style="float:right">
+                                <p class="small">
+                                    For other session:
+                                    <select><option>2023-2024</option><option>2022-2023</option></select>
+                                </p>
+                            </div>
+                        </div>
+                        <div id="absenteeism-bar-chart" style="height:400px;">
+                            <div class="table-container-scrollable">
+                             <table class="table table-custom table-hover" id="tblatt1">
+                                <thead>
+                                    <tr>
+                                        <th style="width:500px;text-align: left;">College</th>
+                                        <th>Enrollment Nos.</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                             </table>
+                             </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        College Collection Statistics
+
+                    </div>
+
+                    <div id="absenteeism-bar-chart" style="height: 250px;">
+                        <canvas id="collegeCollectionPieChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Today's Collection & Expenses
+
+                    </div>
+
+                    <div id="absenteeism-bar-chart" style="height: 200px;">
+                        <canvas id="dualBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+    </div> *@
+       
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> *@
+</body>
+</html>

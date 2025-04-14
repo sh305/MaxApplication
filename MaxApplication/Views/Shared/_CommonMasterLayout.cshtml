@@ -1,0 +1,61 @@
+﻿@{
+    @* using this variables to load front pages assets *@
+    bool isFront = ViewData["isFront"] is bool isFrontValue ? isFrontValue : false;
+    ViewData["main"] = isFront ? "front-" : "";
+    ViewData["frontVar"] = isFront ? "Front" : "";
+    @* Compact/Fluid class *@
+    ViewData["contentType"] = ViewData["container"] is string container && container == "container-xxl" ? "layout-compact" : "layout-wide";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+   
+    <title>RssR CampusConnect</title>
+
+    <meta name="description" content="" />
+
+    <!-- Canonical SEO -->
+    <link rel="canonical">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/img/favicon/rssrlogo.png" />
+
+    <!-- Core Styles -->
+    
+
+
+    <!-- Vendor Styles -->
+    @RenderSection("VendorStyles", required: false)
+
+    <!-- Page Styles -->
+    @RenderSection("PageStyles", required: false)
+
+    <!-- Include Scripts for customizer, helper, analytics, config -->
+   
+</head>
+
+<body>
+    <!-- Layout Content -->
+    @RenderBody()
+    <!--/ Layout Content -->
+    <!-- Core Scripts -->
+  
+
+    <!-- Vendor Scripts -->
+    @RenderSection("VendorScripts", required: false)
+
+   
+
+    <!-- Page Scripts-->
+    @RenderSection("PageScripts", required: false)
+
+
+</body>
+
+</html>

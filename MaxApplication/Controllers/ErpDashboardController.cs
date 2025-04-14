@@ -2,7 +2,7 @@
 
 namespace MaxApplication.Controllers
 {
-    public class ErpDashboard : Controller
+    public class ErpDashboardController : Controller
     {
         public IActionResult Home()
         {
